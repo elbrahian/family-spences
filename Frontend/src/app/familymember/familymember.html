@@ -1,0 +1,120 @@
+<div class="container">
+  <div *ngIf="showSuccessMessage && !isAddingMember" class="success-alert">
+     Nuevo miembro registrado exitosamente
+  </div>
+
+  <div *ngIf="showErrorMessage && isAddingMember" class="error-alert">
+    Ocurrio un error registrando el miembro. Por favor, intente nuevamente.
+  </div>
+
+  <div *ngIf="!isAddingMember" class="list-view">
+
+    <h2>Miembros de la Familia</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Documento</th>
+          <th>Email</th>
+          <th>Parentesco</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let m of members">
+          <td>{{ m.firstName }} {{ m.lastName }}</td>
+          <td>{{ m.document }}</td>
+          <td>{{ m.email }}</td>
+          <td>{{ m.relationship?.type }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button (click)="startAddMember()">Agregar Miembro</button>
+  </div>
+
+  <div *ngIf="isAddingMember" class="form-view">
+
+    <h2>Agregar Miembro</h2>
+
+    <form [formGroup]="form" (ngSubmit)="save()">
+
+<label>Nombre</label>
+<input formControlName="firstName" type="text">
+<small *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.touched" style="color: red;">El Nombre es obligatorio</small>
+
+<label>Apellido</label>
+<input formControlName="lastName" type="text">
+<small *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched" style="color: red;">El Apellido es obligatorio</small>
+
+<label>Fecha de nacimiento</label>
+<input formControlName="birthDate" type="date" [max]="maxDate">
+<small *ngIf="form.get('birthDate')?.invalid && form.get('birthDate')?.touched" style="color: red;">La fecha es obligatoria</small>
+
+<label>Tipo Documento</label>
+<select formControlName="documentType">
+  <option value="">Seleccione</option>
+  <option *ngFor="let dt of documentTypes" [ngValue]="dt.id">
+    {{ dt.type }}
+  </option>
+</select>
+<small *ngIf="form.get('documentType')?.invalid && form.get('documentType')?.touched" style="color: red;">Selecciona un Tipo de Documento</small>
+
+<label>No Documento</label>
+<input formControlName="document" type="text">
+<small *ngIf="form.get('document')?.invalid&& form.get('document')?.touched" style="color: red;">
+  Documento requerido (mínimo 6 dígitos).
+</small>
+
+
+<label>Email</label>
+<input formControlName="email" type="email">
+<small *ngIf="form.get('email')?.invalid&& form.get('email')?.touched" style="color: red;">
+  Email inválido.
+</small>
+
+<label>Parentesco</label>
+<select formControlName="relationship">
+  <option value="">Seleccione</option>
+  <option *ngFor="let r of relationships" [ngValue]="r.id">
+    {{ r.type }}
+  </option>
+</select>
+<small *ngIf="form.get('relationship')?.invalid&& form.get('relationship')?.touched" style="color: red;">
+  Seleccione un parentesco.
+</small>
+
+<label>Tarjeta Crédito</label>
+<input formControlName="creditCard" type="number">
+<small *ngIf="form.get('creditCard')?.invalid&& form.get('creditCard')?.touched" style="color: red;">
+  Tarjeta de crédito obligatoria.
+</small>
+
+<label>Teléfono</label>
+<input formControlName="phone" type="number">
+<small *ngIf="form.get('phone')?.invalid&& form.get('phone')?.touched" style="color: red;">
+  Teléfono debe empezar con 3 y tener 10 dígitos.
+</small>
+
+<label>Dirección</label>
+<input formControlName="address" type="text">
+<small *ngIf="form.get('address')?.invalid&& form.get('address')?.touched" style="color: red;">
+  Dirección requerida (mínimo 5 caracteres).
+</small>
+
+<label>Contraseña</label>
+<input formControlName="password" type="password">
+<small *ngIf="form.get('password')?.invalid&& form.get('password')?.touched" style="color: red;">
+  La contraseña debe tener 8+ caracteres, mayúscula, minúscula, número y carácter especial.
+</small>
+
+      <div class="buttons">
+        <button type="submit" [disabled]="form.invalid">Guardar</button>
+        <button type="button" (click)="cancel()">Cancelar</button>
+      </div>
+
+    </form>
+  </div>
+
+</div>
