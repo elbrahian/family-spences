@@ -19,3 +19,8 @@ Frontend → API → RabbitMQ → Processor
 
 ## Pruebas
 - JMeter
+
+## Repositorios
+- API (Producer): https://github.com/JuanCarJ/familyspencesapi.git
+- Processor (Consumer): https://github.com/jpg27/processor_family_familySpences.git
+- Frontend: https://github.com/juanpanore/familyspencesapp.git
